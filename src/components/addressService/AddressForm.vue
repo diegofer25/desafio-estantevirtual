@@ -10,12 +10,17 @@
             {{ requestCep ? 'Cancelar' : 'Não sei meu CEP' }}
           </a>
           <small :class="'mt-1 btn-sm text-white bg-'+form.cep.status">{{form.cep.mensage}}</small>
+          <div v-if="ceps && !form.cep.value">
+            <small>Este são os CEPs encontrados para sua busca</small>
+            <select class="col-12" v-model="form.cep.value">
+            <option v-for="cep in ceps" :key="cep['.key']" :value="cep.cep">
+              {{`${cep.cep} - ${cep.uf} - ${cep.localidade}`}}
+            </option>
+          </select>
+          </div>
         </div>
         <div class="col-12 text-center" v-if="requestCep">
           <small :class="requestCepStatus + ' col-s12'">{{requestCepMensage}}</small>
-          <select class="col-12" v-if="ceps" v-model="form.cep.value">
-            <option v-for="cep in ceps" :key="cep['.key']" :value="cep"></option>
-          </select>
         </div>
         <div class="form-group">
           <label for="cep">Logradouro *</label>

@@ -55,16 +55,16 @@ export default {
     },
 
     findMyCep () {
-      this.setBorder('Preencha os campos solicitados para encontrar-mos seu cep', false)
       this.requestCep = !this.requestCep
+      this.setBorder('Preencha os campos solicitados para encontrar-mos seu cep', false)
     },
 
     setBorder (mensage, validate) {
       this.requestCepMensage = mensage
       this.requestCepStatus = validate ? 'btn-success' : 'btn-warning'
-      this.streetStatus = this.requestCep && validate === '' ? 'border border-warning' : ''
-      this.cityStatus = this.requestCep && validate === '' ? 'border border-warning' : ''
-      this.stateStatus = this.requestCep && validate === '' ? 'border border-warning' : ''
+      this.streetStatus = this.requestCep && !validate ? 'border border-warning' : ''
+      this.cityStatus = this.requestCep && !validate ? 'border border-warning' : ''
+      this.stateStatus = this.requestCep && !validate ? 'border border-warning' : ''
     },
 
     getCep () {
@@ -72,8 +72,9 @@ export default {
         let form = this.form
         this.$http.get(`https://viacep.com.br/ws/${form.state}/${form.city}${form.cep.value}/json/`).then(response => {
           if (response.ok) {
+            this.requestCep = false
+            this.setBorder('', true)
             this.ceps = response.body
-            this.showAlert('CEP válido', 'success')
           }
         }, (e) => {
           console.log(e)
@@ -105,8 +106,10 @@ export default {
 
     saveAddress () {
       if (this.isValidAddress()) {
+        this.ceps = ''
         addressRef.push(this.form)
         this.clearForm()
+        alert('Endereço cadastrado com sucesso')
       } else {
         alert('Por favor preencha os dados obrigatórios')
       }
