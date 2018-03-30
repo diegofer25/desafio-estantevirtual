@@ -1,5 +1,8 @@
 import router from '../router'
 import firebase from 'firebase'
+import Vue from 'vue'
+import { Tooltip } from 'bootstrap-vue/es/components'
+Vue.use(Tooltip)
 
 export default {
   name: 'Index',

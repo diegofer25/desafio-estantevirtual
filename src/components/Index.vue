@@ -24,20 +24,20 @@
           <button @click="login" class="first-btn btn btn-info col-sm-8 col-md-6 col-lg-6 mt-3">
             <span class="fa fa-singin"></span> Login</button>
 
-          <button @click="toRegister" class="btn btn-secondary col-sm-3 offset-sm-1 col-md-3 offset-md-3 col-lg-4 offset-lg-2 mt-3 float-right">
+          <button @click="toRegister" class="btn btn-secondary col-sm-3 offset-sm-1 col-md-4 offset-md-2 col-lg-4 offset-lg-2 mt-3 float-right">
             <span class="fa fa-envelope"></span> Cadastrar</button>
           <small class="form-text text-muted mt-3">Logue com sua rede social favorita</small>
         </div>
       </form>
       <div class="col-12">
-          <button @click="googleLogin" class="first-btn btn btn-google col-sm-3 col-md-3 col-lg-3 mt-3">
-            <span class="fa fa-google-plus"></span></button>
+          <b-btn v-b-tooltip.hover title="Google" @click="googleLogin" class="first-btn btn btn-google col-sm-3 mt-3">
+            <span class="fa fa-google-plus"></span></b-btn>
 
-          <button @click="facebookLogin" class="btn btn-facebook col-sm-3 offset-sm-1 col-md-3 offset-md-1 col-lg-3 offset-lg-1 mt-3">
-            <span class="fa fa-facebook-official"></span></button>
+          <b-btn v-b-tooltip.hover title="Facebook" @click="facebookLogin" class="btn btn-facebook col-sm-3 ml-lg-2 ml-md-2 mt-3">
+            <span class="fa fa-facebook-official"></span></b-btn>
 
-          <button @click="twitterLogin" class="btn btn-twitter col-sm-3 offset-sm-1 col-md-3 offset-md-1 col-lg-3 offset-lg-1 mt-3">
-            <span class="fa fa-twitter"></span></button>
+          <b-btn v-b-tooltip.hover title="Twitter" @click="twitterLogin" class="btn btn-twitter col-sm-3 ml-lg-2 ml-md-2 mt-3">
+            <span class="fa fa-twitter"></span></b-btn>
         </div>
     </div>
   </div>

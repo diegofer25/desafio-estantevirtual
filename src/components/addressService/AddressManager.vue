@@ -1,41 +1,32 @@
 <template>
 <div>
-  <div class="col-sm-10 offset-sm-1">
+  <div class="col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3">
     <h2 class="text-center mt-2">{{title}}</h2>
-    <table class="table table-light table-hover table-responsive-sm">
-      <thead class="thead-dark">
-        <tr class="text-center">
-          <th scope="col">CEP</th>
-          <th scope="col">Logradouro</th>
-          <th scope="col">Complemento</th>
-          <th scope="col">Bairro</th>
-          <th scope="col">Cidade</th>
-          <th scope="col">Estado</th>
-          <th scope="col">Editar</th>
-          <th scope="col">Excluir</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr class="text-center" scope="row" v-for="address in addressList" :key="address['.key']">
-          <td>{{address.cep.value}}</td>
-          <td>{{address.street}}</td>
-          <td>{{address.complement}}</td>
-          <td>{{address.neighborhood}}</td>
-          <td>{{address.city}}</td>
-          <td>{{address.state}}</td>
-          <td>
-            <button @click="getAddressToEdit(address, address['.key']); showModal()" class="btn btn-secondary">
-              <span class="fa fa-edit"></span>
-            </button>
-          </td>
-          <td>
-            <button @click="deleteAddress(address['.key'])" class="btn btn-danger">
-              <span class="fa fa-trash"></span>
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+
+    <div role="tablist">
+      <b-card no-body class="mb-1" v-for="address in addressList" :key="address['.key']">
+        <b-card-header header-tag="header" class="'p-1" role="tab">
+          <b-btn block href="#" v-b-toggle.accordion1 variant="info">
+            {{`${addressList.indexOf(address) + 1}º - ${address.cep.value} - ${address.street} - ${address.state}`}}
+          </b-btn>
+        </b-card-header>
+        <b-collapse id="accordion1" visible accordion="my-accordion" role="tabpanel">
+          <b-card-body>
+            <p class="cards-text">
+              {{address.cep.value}} - {{address.street}} - {{address.city}} - {{address.state}}
+              </p>
+            <div class="col-12">
+              <button @click="deleteAddress(address['.key'], address)" class="btn btn-danger float-right mb-3">
+                <span class="fa fa-trash"></span>
+              </button>
+              <button @click="getAddressToEdit(address, address['.key']); showModal()" class="btn btn-secondary float-right mr-3 mb-3">
+                <span class="fa fa-edit"></span>
+              </button>
+            </div>
+          </b-card-body>
+        </b-collapse>
+      </b-card>
+    </div>
 
     <b-modal ref="myModalRef" hide-footer title="Edição de endereço">
 

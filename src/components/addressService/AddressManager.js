@@ -1,4 +1,11 @@
-import {addressRef} from '../../firebase'
+import Vue from 'vue'
+import { addressRef } from '../../firebase'
+import { Collapse } from 'bootstrap-vue/es/components'
+import bCollapse from 'bootstrap-vue/es/components/collapse/collapse'
+import vBToggle from 'bootstrap-vue/es/directives/toggle/toggle'
+Vue.directive('b-toggle', vBToggle)
+Vue.component('b-collapse', bCollapse)
+Vue.use(Collapse)
 
 export default {
   name: 'AddressManager',
@@ -22,8 +29,10 @@ export default {
   },
 
   methods: {
-    deleteAddress (key) {
-      addressRef.child(key).remove()
+    deleteAddress (key, address) {
+      if (confirm(`Deseja mesmo excluir o endereço ${address.cep.value} - ${address.street}, ${address.city} - ${address.state}?`)) {
+        addressRef.child(key).remove()
+      }
     },
 
     getAddressToEdit (address, key) {
