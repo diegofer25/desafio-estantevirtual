@@ -1,9 +1,8 @@
 <template>
 <div>
   <div class="col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-8 offset-lg-2">
-    <h2 class="text-center mt-2">{{title}}</h2>
-
-    <div role="tablist" v-if="addressList !== undefined">
+    <h2 v-if="addressList.length > 0" class="text-center mt-2">{{title}}</h2>
+    <div role="tablist" v-if="addressList.length > 0">
       <b-card no-body class="mb-1" v-for="object in addressList" :key="object.key">
         <b-card-header header-tag="header" class="p-0" role="tab">
           <b-btn block @click="object.address.cep.status = !object.address.cep.status"
@@ -18,15 +17,19 @@
             <div class="col-12 content">
               {{object.address.cep.value}} - {{object.address.street}} {{object.address.complement}} {{object.address.neighborhood}}, {{object.address.city}} - {{object.address.state}}
               <div class="col-12 options mt-2">
-                <button @click="deleteAddress(object.key, object.address)" class="btn btn-danger float-right mb-3">
+                <button v-b-tooltip.hover title="Excluir"
+                  @click="deleteAddress(object.key, object.address)"
+                  class="btn btn-danger float-right mb-3">
                   <span class="fa fa-trash"></span>
                 </button>
-                <button @click="getAddressToEdit(object.address, object.key)" class="btn btn-secondary float-right mr-3 mb-3">
+                <button v-b-tooltip.hover title="Editar"
+                  @click="getAddressToEdit(object.address, object.key)"
+                  class="btn btn-secondary float-right mr-3 mb-3">
                   <span class="fa fa-edit"></span>
                 </button>
               </div>
             </div>
-            <addressdtails :addressDetails="object.address" :userLocation="user.location"></addressdtails>
+            <addressdtails :addressDetails="object.address"></addressdtails>
           </b-card-body>
         </b-collapse>
       </b-card>
@@ -122,7 +125,7 @@ export default {
     },
 
     getAddressToEdit (address, key) {
-      console.log(key)
+      console.log('key que meu formulario manda' + key)
       this.showModal()
       this.addresskey = key
       this.form = address
@@ -131,7 +134,8 @@ export default {
     editAddress () {
       let form = this.form
       let key = this.addresskey
-      store.commit('EDIT_ADDRESS', form, key)
+      console.log('key que vou mandar para mutation' + key)
+      store.commit('EDIT_ADDRESS', {form: form, key: key})
       store.commit('GET_ADDRESS_LIST')
       this.finishEdit()
     },

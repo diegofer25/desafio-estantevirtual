@@ -3,9 +3,10 @@ export default {
     id: 'default',
     name: '',
     photo: '',
-    auth: '',
-    location: ''
+    auth: ''
   },
 
-  userAddressList: []
+  userAddressList: [],
+
+  UserLocation: 'Rio de Jneiro'
 }

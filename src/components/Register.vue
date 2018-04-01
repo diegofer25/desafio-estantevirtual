@@ -86,6 +86,10 @@ export default {
         photo: user.photoURL
       })
       this.$router.push('/menu')
+    },
+
+    processRegisterError (e) {
+      // to implement
     }
   }
 }

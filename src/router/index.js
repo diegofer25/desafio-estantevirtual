@@ -43,16 +43,20 @@ const router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
-  if (to.matched.some(record => record.meta.requiresAuth)) {
-    if (store.state.user.auth) {
-      next()
-    } else {
-      next('/')
-    }
-  } else if (store.state.user.auth) {
-    next('/menu')
-  } else {
+  if (to.path === '/myaddresslist') {
     next()
+  } else {
+    if (to.matched.some(record => record.meta.requiresAuth)) {
+      if (store.state.user.auth) {
+        next()
+      } else {
+        next('/')
+      }
+    } else if (store.state.user.auth) {
+      next('/menu')
+    } else {
+      next()
+    }
   }
 })
 

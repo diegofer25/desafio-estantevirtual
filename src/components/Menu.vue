@@ -27,6 +27,8 @@
     <div class="row">
       <button class="btn btn-info ml-5 mt-4 float-left" @click="showModal()">
         <span class="fa fa-plus"></span> Cadastrar Novo Endereço</button>
+      <button v-b-tooltip.hover title="Compartilhar Lista" class="btn btn-info ml-5 mt-4 float-left" @click="shareList()">
+        <span class="fa fa-share-alt"></span></button>
     </div>
 
     <b-modal ref="myModalRef" hide-footer title="Cadastro de novo endereço">
@@ -62,7 +64,6 @@ export default {
 
   mounted () {
     this.user = store.state.user
-    this.getUserLocation()
   },
 
   methods: {
@@ -84,15 +85,15 @@ export default {
       this.$refs.myModalRef.hide()
     },
 
-    getUserLocation () {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition((position) => {
-          store.state.user.location = position.coords.latitude + ' ' + position.coords.longitude
-        })
-      } else {
-        store.state.user.location = null
-        alert('Precisamos da sua localização para uma melhor experiencia com o aplicativo')
-      }
+    shareList () {
+      let user = store.state.user
+      this.$router.push({
+        path: '/myaddresslist',
+        query: {
+          uid: user.id,
+          userName: user.name
+        }
+      })
     }
   },
 

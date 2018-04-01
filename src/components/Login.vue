@@ -32,13 +32,13 @@
         </div>
       </form>
       <div class="col-12">
-          <b-btn v-b-tooltip.hover title="Google" @click="googleLogin" class="first-btn btn btn-google col-sm-3 col-md-3 col-lg-2 mt-3">
+          <b-btn v-b-tooltip.hover title="Google" @click="googleLogin" class="first-btn btn btn-google col-sm-12 col-md-2 col-lg-2 mt-3">
             <span class="fa fa-google-plus"></span></b-btn>
 
-          <b-btn v-b-tooltip.hover title="Facebook" @click="facebookLogin" class="btn btn-facebook col-sm-3 col-md-3 col-lg-2 ml-lg-2 ml-md-2 mt-3">
+          <b-btn v-b-tooltip.hover title="Facebook" @click="facebookLogin" class="btn btn-facebook col-sm-12 col-md-2 col-lg-2 ml-lg-2 ml-md-2 mt-3">
             <span class="fa fa-facebook-official"></span></b-btn>
 
-          <b-btn v-b-tooltip.hover title="Twitter" @click="twitterLogin" class="btn btn-twitter col-sm-3 col-md-3 col-lg-2 ml-lg-2 ml-md-2 mt-3">
+          <b-btn v-b-tooltip.hover title="Twitter" @click="twitterLogin" class="btn btn-twitter col-sm-12 col-md-2 col-lg-2 ml-lg-2 ml-md-2 mt-3">
             <span class="fa fa-twitter"></span></b-btn>
         </div>
     </div>
@@ -90,10 +90,7 @@ export default {
           this.loginProcess(user)
         })
         .catch((e) => {
-          if (e.code === 'auth/wrong-password') {
-            alert('Senha incorreta')
-          }
-          console.log(e)
+          this.processLoginError(e)
         })
     },
 
@@ -104,7 +101,7 @@ export default {
           this.loginProcess(response.user)
         })
         .catch((e) => {
-          console.log(e)
+          this.processLoginError(e)
         })
     },
 
@@ -115,7 +112,7 @@ export default {
           this.loginProcess(response.user)
         })
         .catch((e) => {
-          console.log(e)
+          this.processLoginError(e)
         })
     },
 
@@ -126,7 +123,7 @@ export default {
           this.loginProcess(response.user)
         })
         .catch((e) => {
-          console.log(e)
+          this.processLoginError(e)
         })
     },
 
@@ -138,6 +135,19 @@ export default {
         photo: user.photoURL
       })
       this.$router.push('/menu')
+    },
+
+    processLoginError (e) {
+      console.log(e)
+      if (e.code === 'auth/network-request-failed') {
+        alert('Detectamos problema na sua conexão')
+      } else if (e.code === 'auth/account-exists-with-different-credential') {
+        alert('Você já se registrou com o email ' + e.email)
+      } else if (e.code === 'auth/wrong-password') {
+        alert('Senha incorreta')
+      } else if (e.com === 'auth/user-not-found') {
+        alert('E-mail não encontrado')
+      }
     },
 
     toRegister () {
