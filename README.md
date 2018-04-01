@@ -12,5 +12,5 @@ npm install
 npm run dev
 
 
-# URL para a ETAPA 1
+# URL para a ETAPA 2
 https://desafioestantevirtual.firebaseapp.com

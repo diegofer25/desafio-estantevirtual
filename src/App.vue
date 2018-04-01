@@ -7,10 +7,10 @@
 <script src="../node_modules/bootstrap/dist/js/bootstrap"></script>
 <script>
 export default {
-  name: 'App'
+  name: 'App',
 }
 </script>
 
 <style>
-@import '../node_modules/bootstrap/dist/css/bootstrap';
+  @import '../node_modules/bootstrap/dist/css/bootstrap';
 </style>

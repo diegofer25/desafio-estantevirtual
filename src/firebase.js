@@ -9,4 +9,5 @@ const app = initializeApp({
   messagingSenderId: '95818360883'
 })
 
+export const fireDB = app.database()
 export const addressRef = app.database().ref('address')

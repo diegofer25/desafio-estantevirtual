@@ -1,28 +1,32 @@
 <template>
 <div>
-  <div class="col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3">
+  <div class="col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-8 offset-lg-2">
     <h2 class="text-center mt-2">{{title}}</h2>
 
-    <div role="tablist">
-      <b-card no-body class="mb-1" v-for="address in addressList" :key="address['.key']">
-        <b-card-header header-tag="header" class="'p-1" role="tab">
-          <b-btn block href="#" v-b-toggle.accordion1 variant="info">
-            {{`${addressList.indexOf(address) + 1}º - ${address.cep.value} - ${address.street} - ${address.state}`}}
+    <div role="tablist" v-if="addressList !== undefined">
+      <b-card no-body class="mb-1" v-for="object in addressList" :key="object.key">
+        <b-card-header header-tag="header" class="p-0" role="tab">
+          <b-btn block @click="object.address.cep.status = !object.address.cep.status"
+           :class="object.address.cep.status ? 'collapsed' : null"
+           :aria-controls="addressList.indexOf(object)"
+           :aria-expanded="object.address.cep.status" variant="info">
+            {{`${addressList.indexOf(object) + 1}º ${object.address.street} ${object.address.complement ? ' - ' + object.address.complement : ''}`}}
           </b-btn>
         </b-card-header>
-        <b-collapse id="accordion1" visible accordion="my-accordion" role="tabpanel">
+        <b-collapse :id="String(addressList.indexOf(object))" v-model="object.address.cep.status" accordion="my-accordion" role="tabpanel">
           <b-card-body>
-            <p class="cards-text">
-              {{address.cep.value}} - {{address.street}} - {{address.city}} - {{address.state}}
-              </p>
-            <div class="col-12">
-              <button @click="deleteAddress(address['.key'], address)" class="btn btn-danger float-right mb-3">
-                <span class="fa fa-trash"></span>
-              </button>
-              <button @click="getAddressToEdit(address, address['.key']); showModal()" class="btn btn-secondary float-right mr-3 mb-3">
-                <span class="fa fa-edit"></span>
-              </button>
+            <div class="col-12 content">
+              {{object.address.cep.value}} - {{object.address.street}} {{object.address.complement}} {{object.address.neighborhood}}, {{object.address.city}} - {{object.address.state}}
+              <div class="col-12 options mt-2">
+                <button @click="deleteAddress(object.key, object.address)" class="btn btn-danger float-right mb-3">
+                  <span class="fa fa-trash"></span>
+                </button>
+                <button @click="getAddressToEdit(object.address, object.key)" class="btn btn-secondary float-right mr-3 mb-3">
+                  <span class="fa fa-edit"></span>
+                </button>
+              </div>
             </div>
+            <addressdtails :addressDetails="object.address" :userLocation="user.location"></addressdtails>
           </b-card-body>
         </b-collapse>
       </b-card>
@@ -71,7 +75,86 @@
 </div>
 </template>
 
-<script src="./AddressManager.js"></script>
+<script>
+import AddressDetails from './AddressDetails'
+import store from '../../vuex/store'
+
+export default {
+  name: 'AddressManager',
+  data () {
+    return {
+      title: 'Endereços Cadastrados',
+      form: {
+        cep: '',
+        street: '',
+        complement: '',
+        neighborhood: '',
+        city: '',
+        state: ''
+      },
+      addresskey: '',
+      showCollapse: false
+    }
+  },
+
+  computed: {
+    addressList () {
+      return store.state.userAddressList
+    }
+  },
+
+  mounted () {
+    this.uid = store.state.user.id
+    store.commit('GET_ADDRESS_LIST')
+  },
+
+  props: {
+    userPosition: '',
+    user: ''
+  },
+
+  methods: {
+    deleteAddress (key, address) {
+      if (confirm(`Deseja mesmo excluir o endereço ${address.cep.value} - ${address.street}, ${address.city} - ${address.state}?`)) {
+        store.commit('DELETE_ADDRESS', key)
+        store.commit('GET_ADDRESS_LIST')
+      }
+    },
+
+    getAddressToEdit (address, key) {
+      console.log(key)
+      this.showModal()
+      this.addresskey = key
+      this.form = address
+    },
+
+    editAddress () {
+      let form = this.form
+      let key = this.addresskey
+      store.commit('EDIT_ADDRESS', form, key)
+      store.commit('GET_ADDRESS_LIST')
+      this.finishEdit()
+    },
+
+    finishEdit () {
+      this.addresskey = ''
+      this.hideModal()
+    },
+
+    showModal () {
+      this.$refs.myModalRef.show()
+    },
+
+    hideModal () {
+      this.$refs.myModalRef.hide()
+    }
+  },
+
+  components: {
+    addressdtails: AddressDetails
+  }
+}
+</script>
 
 <style>
   .edit-container {

@@ -1,11 +1,11 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Index from '@/components/Index'
-import Register from '@/components/Register'
+import Login from '@/components/Login'
 import Menu from '@/components/Menu'
+import Register from '@/components/Register'
 import RouterError from '@/components/RouterError'
-import AddressForm from '@/components/addressService/AddressForm'
-import AddressManager from '@/components/addressService/AddressManager'
+import AddressShare from '@/components/addressService/AddressShare'
+import store from '../vuex/store'
 
 Vue.use(Router)
 
@@ -13,8 +13,8 @@ const router = new Router({
   routes: [
     {
       path: '/',
-      name: 'Index',
-      component: Index
+      name: 'Login',
+      component: Login
     },
     {
       path: '/register',
@@ -30,20 +30,9 @@ const router = new Router({
       }
     },
     {
-      path: '/registeraddress',
-      name: 'AddressForm',
-      component: AddressForm,
-      meta: {
-        requiresAuth: true
-      }
-    },
-    {
-      path: '/addressmanager',
-      name: 'AddressManager',
-      component: AddressManager,
-      meta: {
-        requiresAuth: true
-      }
+      path: '/myaddresslist',
+      name: 'AddressShare',
+      component: AddressShare
     },
     {
       path: '/*',
@@ -55,12 +44,12 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
-    if (sessionStorage.getItem('auth')) {
+    if (store.state.user.auth) {
       next()
     } else {
       next('/')
     }
-  } else if (sessionStorage.getItem('auth')) {
+  } else if (store.state.user.auth) {
     next('/menu')
   } else {
     next()

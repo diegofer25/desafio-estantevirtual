@@ -9,8 +9,8 @@
             <b-nav-item>
               <b-nav-item-dropdown right>
                 <template slot="button-content">
-                  <em class="btn">Olá {{user.displayName}}</em>
-                  <img class="rounded-img" width="60px" :src="user.photoURL" alt="">
+                  <em class="btn">Olá {{user.name}}</em>
+                  <img class="rounded-img" width="60px" :src="user.photo" alt="">
                 </template>
                 <b-dropdown-item href="#" class="text-center">
                   <button @click="logoff" class="btn btn-info">
@@ -34,7 +34,7 @@
     </b-modal>
 
     <div class="center">
-      <addressmanage></addressmanage>
+      <addressmanage :user="user"></addressmanage>
     </div>
   </div>
 </template>
@@ -46,6 +46,7 @@ import router from '../router'
 import AddressForm from './addressService/AddressForm'
 import AddressManager from './addressService/AddressManager'
 import bModal from 'bootstrap-vue/es/components/modal/modal'
+import store from '../vuex/store'
 Vue.use(Navbar)
 
 export default {
@@ -54,19 +55,24 @@ export default {
   data () {
     return {
       title: 'Desafio Estante Virtual',
-      user: ''
+      user: '',
+      list: ''
     }
   },
 
   mounted () {
-    this.user = JSON.parse(sessionStorage.getItem('user'))
-    console.log(this.user)
+    this.user = store.state.user
+    this.getUserLocation()
   },
 
   methods: {
     logoff () {
-      sessionStorage.removeItem('auth')
-      sessionStorage.removeItem('user')
+      let user = store.state.user
+      user.auth = ''
+      user.id = ''
+      user.name = ''
+      user.photo = ''
+      user.location = ''
       router.push('/')
     },
 
@@ -76,6 +82,17 @@ export default {
 
     hideModal () {
       this.$refs.myModalRef.hide()
+    },
+
+    getUserLocation () {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition((position) => {
+          store.state.user.location = position.coords.latitude + ' ' + position.coords.longitude
+        })
+      } else {
+        store.state.user.location = null
+        alert('Precisamos da sua localização para uma melhor experiencia com o aplicativo')
+      }
     }
   },
 
