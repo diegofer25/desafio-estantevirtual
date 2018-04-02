@@ -70,7 +70,7 @@
 
       <button  class="btn btn-info" @click="hideModal(); finishEdit()">
         <span class="fa fa-times"></span> Cancelar Edição</button>
-      <button class="btn btn-success float-right" @click="editAddress()">
+      <button class="btn btn-success" @click="editAddress()">
         <span class="fa fa-save"></span> Salvar</button>
     </b-modal>
 

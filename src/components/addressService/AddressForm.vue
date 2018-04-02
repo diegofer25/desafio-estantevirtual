@@ -4,12 +4,11 @@
 
       <form onsubmit="return false" class="col-sm-12">
         <div class="form-group">
-          <label for="cep">CEP *</label>
+          <small :class="'mt-1 btn-sm text-white bg-'+form.cep.status">{{form.cep.mensage}}</small>
           <input class="form-control" @blur="verifyCep()" @focus="verifyCep()" v-model="form.cep.value" type="text" placeholder="Ex: 12345678" required>
           <a class="mt-1 btn btn-info float-right btn-sm text-white" @click="findMyCep()">
             {{ requestCep ? 'Cancelar' : 'Não sei meu CEP' }}
           </a>
-          <small :class="'mt-1 btn-sm text-white bg-'+form.cep.status">{{form.cep.mensage}}</small>
           <div v-if="ceps && !form.cep.value">
             <small class="bg-success text-white">Este são os CEPs encontrados para sua busca</small>
             <select class="col-12" v-model="choosedCep" @blur="verifyCep()" @focus="verifyCep()">
@@ -24,8 +23,8 @@
             </select>
           </div>
         </div>
-        <div class="col-12 text-center" v-if="requestCep">
-          <small :class="requestCepStatus + ' col-s12'">{{requestCepMensage}}</small>
+        <div class="col-12" v-if="requestCep">
+          <small :class="requestCepStatus">{{requestCepMensage}}</small>
         </div>
         <div class="form-group">
           <label for="cep">Logradouro *</label>
@@ -124,7 +123,6 @@ export default {
           if (response.body.erro) {
             this.showAlert('CEP não encontrado', 'warning')
           } else {
-            console.log(response)
             this.showAlert('CEP válido', 'success')
             this.fillFormAddress(response.body)
           }
