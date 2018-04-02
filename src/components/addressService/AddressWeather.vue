@@ -27,7 +27,7 @@ export default {
 
   methods: {
     get () {
-      this.$http.get(`http://api.openweathermap.org/data/2.5/weather?q=${this.city}&units=metric&lang=pt&appid=f13e118b48effa30578188ac740c2025`)
+      this.$http.get(`https://api.openweathermap.org/data/2.5/weather?q=${this.city}&units=metric&lang=pt&appid=f13e118b48effa30578188ac740c2025`)
         .then((response) => {
           this.weather = response.data
         }, (e) => {

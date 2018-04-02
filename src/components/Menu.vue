@@ -12,10 +12,10 @@
                   <em class="btn">Olá {{user.name}}</em>
                   <img class="rounded-img" width="60px" :src="user.photo" alt="">
                 </template>
-                <b-dropdown-item href="#" class="text-center">
-                  <button @click="logoff" class="btn btn-info">
+                <b-dropdown-item href="#" class="text-center drop-itens">
+                  <a @click="logoff">
                     <span class="fa fa-power-off"></span> Logoff
-                  </button>
+                  </a>
                 </b-dropdown-item>
               </b-nav-item-dropdown>
             </b-nav-item>
@@ -100,8 +100,18 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
   .rounded-img {
     border-radius: 30px;
+  }
+
+  .drop-itens {
+    transition: ease-in-out 300ms;
+  }
+
+  .drop-itens:hover {
+    color: white;
+    text-shadow: 1px 1px 1px black;
+    background-color: lightblue;
   }
 </style>
