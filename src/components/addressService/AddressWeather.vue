@@ -1,9 +1,9 @@
 <template>
-  <div class='weather col-8 mb-2' v-if="weather !== ''">
+  <div class='weather col-12 mb-2' v-if="weather !== ''">
     <h4>{{weather.name}} - {{weather.main.temp}}ºc</h4>
     <span>Min: {{weather.main.temp_min}}ºc - Max: {{weather.main.temp_max}}ºc</span>
     <small class='text text-muted'>- "{{weather.weather[0].description}}"</small>
-    <small>Ventos: {{weather.wind.speed}}m/s {{weather.wind.deg}}</small>
+    <small>Ventos: {{weather.wind.speed}}m/s</small>
   </div>
 </template>
 
