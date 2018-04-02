@@ -5,7 +5,7 @@
       <form onsubmit="return false" class="col-sm-12">
         <div class="form-group">
           <small :class="'mt-1 btn-sm text-white bg-'+form.cep.status">{{form.cep.mensage}}</small>
-          <input class="form-control" @blur="verifyCep()" @focus="verifyCep()" v-model="form.cep.value" type="text" placeholder="Ex: 12345678" required>
+          <input class="form-control" @blur="verifyCep()" @focus="verifyCep()" v-model="form.cep.value" type="number" placeholder="Ex: 12345678" required>
           <a class="mt-1 btn btn-info float-right btn-sm text-white" @click="findMyCep()">
             {{ requestCep ? 'Cancelar' : 'Não sei meu CEP' }}
           </a>

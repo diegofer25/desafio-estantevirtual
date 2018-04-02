@@ -40,7 +40,7 @@
       <form class="col-12">
         <div class="form-group">
           <label for="cep">CEP *</label>
-          <input class="form-control" @blur="verifyCep()" v-model="form.cep.value" type="text" required>
+          <input class="form-control" @blur="verifyCep()" v-model="form.cep.value" type="number" required>
         </div>
         <div class="form-group">
           <label for="cep">Logradouro *</label>
