@@ -27,7 +27,8 @@
     <div class="row">
       <button class="btn btn-info ml-5 mt-4 float-left" @click="showModal()">
         <span class="fa fa-plus"></span> Cadastrar Novo Endereço</button>
-      <button v-b-tooltip.hover title="Compartilhar Lista" class="btn btn-info ml-5 mt-4 float-left" @click="shareList()">
+      <button v-b-tooltip.hover title="Compartilhar Lista"
+        class="btn btn-info ml-5 mt-4 float-left" @click="shareList()">
         <span class="fa fa-share-alt"></span></button>
     </div>
 
@@ -36,7 +37,7 @@
     </b-modal>
 
     <div class="center">
-      <addressmanage :user="user"></addressmanage>
+      <addressmanage></addressmanage>
     </div>
   </div>
 </template>
@@ -57,8 +58,7 @@ export default {
   data () {
     return {
       title: 'Desafio Estante Virtual',
-      user: '',
-      list: ''
+      user: ''
     }
   },
 
@@ -68,12 +68,7 @@ export default {
 
   methods: {
     logoff () {
-      let user = store.state.user
-      user.auth = ''
-      user.id = ''
-      user.name = ''
-      user.photo = ''
-      user.location = ''
+      store.commit('LOG_OFF')
       router.push('/')
     },
 
@@ -86,7 +81,7 @@ export default {
     },
 
     shareList () {
-      let user = store.state.user
+      let user = this.user
       this.$router.push({
         path: '/myaddresslist',
         query: {

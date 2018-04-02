@@ -5,9 +5,13 @@ export default {
     state.user = user
   },
 
+  'LOG_OFF' (state) {
+    state.user = {}
+  },
+
   'GET_ADDRESS_LIST' (state, uid) {
     let id = state.user.id
-    if (uid) {
+    if (uid !== undefined) {
       id = uid
     }
     state.userAddressList = []
@@ -47,10 +51,6 @@ export default {
   },
 
   'SET_USER_LOCATION' (state, location) {
-    if (location) {
-      state.UserLocation = location
-    } else {
-      state.UserLocation = 'Rio de Janeiro'
-    }
+    state.UserLocation = location
   }
 }

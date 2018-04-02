@@ -1,18 +1,18 @@
 <template>
   <div>
-    <addressweather></addressweather>
+    <addressweather :city="address.city"></addressweather>
     <iframe
       width="100%"
       height="400px"
       frameborder="0" style="border:0"
-      :src="`https://www.google.com/maps/embed/v1/directions?key=AIzaSyCdy7wKFGnVg_s5vLBOf1oopre5V_xeico&origin=${addressDetails.cep.value}&destination=${getPosition()}&mode=${mode}`" allowfullscreen>
+      :src="`https://www.google.com/maps/embed/v1/directions?key=AIzaSyCdy7wKFGnVg_s5vLBOf1oopre5V_xeico&origin=${address.cep.value}&destination=${destination}&mode=${mode}`" allowfullscreen>
     </iframe>
   </div>
 </template>
 
 <script>
-import store from '../../vuex/store'
 import AddressWeather from './AddressWeather'
+import store from '../../vuex/store'
 
 export default {
   name: 'AddressDetails',
@@ -24,40 +24,35 @@ export default {
     }
   },
 
+  computed: {
+    destination: () => {
+      return store.state.UserLocation
+    }
+  },
+
   mounted () {
     this.getUserLocation()
   },
 
   props: {
-    addressDetails: ''
+    address: ''
   },
 
   methods: {
-    getAddressDetails: () => {
-    },
-
     getUserLocation () {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition((position) => {
-          store.commit('SET_USER_LOCATION', position.coords.latitude + ',' + position.coords.longitude)
+          let coords = position.coords.latitude + ',' + position.coords.longitude
+          store.commit('SET_USER_LOCATION', coords)
         })
       } else {
-        store.commit('SET_USER_LOCATION')
-        alert('Precisamos da sua localização para uma melhor experiencia com o aplicativo, por padrão sua localização será Rio de Janeiro - Centro')
+        console.log('ok')
       }
-    },
-
-    switchWay: () => {
-      this.mode = 'driving'// this.mode === 'driving' ? 'walking' : 'driving'
-    },
-
-    getPosition () {
-      return store.state.UserLocation
-    },
-
-    component: {
-      addressweather: AddressWeather
     }
+  },
+
+  components: {
+    addressweather: AddressWeather
   }
 }
 </script>

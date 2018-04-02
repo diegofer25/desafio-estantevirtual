@@ -43,8 +43,10 @@ const router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
-  if (to.path === '/myaddresslist') {
+  if (to.path === '/myaddresslist' && to.query) {
     next()
+  } else if (to.path === '/myaddresslist') {
+    next('/error')
   } else {
     if (to.matched.some(record => record.meta.requiresAuth)) {
       if (store.state.user.auth) {

@@ -8,5 +8,5 @@ export default {
 
   userAddressList: [],
 
-  UserLocation: 'Rio de Jneiro'
+  UserLocation: '-22.9035,-43.2096 22'
 }

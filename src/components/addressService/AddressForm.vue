@@ -11,7 +11,7 @@
           </a>
           <small :class="'mt-1 btn-sm text-white bg-'+form.cep.status">{{form.cep.mensage}}</small>
           <div v-if="ceps && !form.cep.value">
-            <smalxl class="bg-success text-white">Este são os CEPs encontrados para sua busca</smalxl>
+            <small class="bg-success text-white">Este são os CEPs encontrados para sua busca</small>
             <select class="col-12" v-model="choosedCep" @blur="verifyCep()" @focus="verifyCep()">
               <option v-for="cep in ceps" :key="cep['.key']" :value="cep">
                 {{cep.cep ? cep.cep : ''}}
@@ -124,6 +124,7 @@ export default {
           if (response.body.erro) {
             this.showAlert('CEP não encontrado', 'warning')
           } else {
+            console.log(response)
             this.showAlert('CEP válido', 'success')
             this.fillFormAddress(response.body)
           }

@@ -1,21 +1,21 @@
 <template>
 <div>
-  <div class="col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-8 offset-lg-2">
-    <h2 v-if="addressList.length > 0" class="text-center mt-2">{{title}}</h2>
-    <div role="tablist" v-if="addressList.length > 0">
+  <div v-if="addressList.length > 0" class="col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-8 offset-lg-2">
+    <h2 class="text-center mt-2">{{title}}</h2>
+    <div role="tablist">
       <b-card no-body class="mb-1" v-for="object in addressList" :key="object.key">
         <b-card-header header-tag="header" class="p-0" role="tab">
           <b-btn block @click="object.address.cep.status = !object.address.cep.status"
            :class="object.address.cep.status ? 'collapsed' : null"
            :aria-controls="addressList.indexOf(object)"
            :aria-expanded="object.address.cep.status" variant="info">
-            {{`${addressList.indexOf(object) + 1}º ${object.address.street} ${object.address.complement ? ' - ' + object.address.complement : ''}`}}
+            {{`${addressList.indexOf(object) + 1}º ${object.address.cep.value} - ${object.address.street} - ${object.address.state}`}}
           </b-btn>
         </b-card-header>
         <b-collapse :id="String(addressList.indexOf(object))" v-model="object.address.cep.status" accordion="my-accordion" role="tabpanel">
           <b-card-body>
             <div class="col-12 content">
-              {{object.address.cep.value}} - {{object.address.street}} {{object.address.complement}} {{object.address.neighborhood}}, {{object.address.city}} - {{object.address.state}}
+              {{object.address.street}} {{object.address.complement}} {{object.address.neighborhood}}, {{object.address.city}} - {{object.address.state}}
               <div class="col-12 options mt-2">
                 <button v-b-tooltip.hover title="Excluir"
                   @click="deleteAddress(object.key, object.address)"
@@ -29,7 +29,7 @@
                 </button>
               </div>
             </div>
-            <addressdtails :addressDetails="object.address"></addressdtails>
+            <addressdetails :address="object.address"></addressdetails>
           </b-card-body>
         </b-collapse>
       </b-card>
@@ -111,11 +111,6 @@ export default {
     store.commit('GET_ADDRESS_LIST')
   },
 
-  props: {
-    userPosition: '',
-    user: ''
-  },
-
   methods: {
     deleteAddress (key, address) {
       if (confirm(`Deseja mesmo excluir o endereço ${address.cep.value} - ${address.street}, ${address.city} - ${address.state}?`)) {
@@ -155,7 +150,7 @@ export default {
   },
 
   components: {
-    addressdtails: AddressDetails
+    addressdetails: AddressDetails
   }
 }
 </script>

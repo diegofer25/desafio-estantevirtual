@@ -1,6 +1,6 @@
 <template>
   <div class="container text-center mt-4">
-    <h2>Lista compartilhada de {{listOwn}}</h2>
+    <h2>Lista compartilhada de {{listOwner}}</h2>
     <small v-if="isOwner" class="text text-muted">Copie o link e compartilhe com quem quiser</small>
     <div class="col-12 text-center">
       <router-link class="btn btn-secondary mt-2" :to="'/'">Criar uma lista</router-link>
@@ -20,7 +20,7 @@
             <div class="col-12 content">
               {{object.address.cep.value}} - {{object.address.street}} {{object.address.complement}} {{object.address.neighborhood}}, {{object.address.city}} - {{object.address.state}}
             </div>
-            <addressdtails :addressDetails="object.address"></addressdtails>
+            <addressdetails :address="object.address"></addressdetails>
           </b-card-body>
         </b-collapse>
       </b-card>
@@ -40,7 +40,7 @@ export default {
       return store.state.userAddressList
     },
 
-    listOwn () {
+    listOwner () {
       return this.$route.query.userName
     },
 
@@ -58,7 +58,7 @@ export default {
     getUserLocation () {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition((position) => {
-          store.commit('SET_USER_LOCATION', position.coords.latitude + ' ' + position.coords.longitude)
+          store.commit('SET_USER_LOCATION', position.coords.latitude + ',' + position.coords.longitude)
         })
       } else {
         store.commit('SET_USER_LOCATION', null)
@@ -68,7 +68,7 @@ export default {
   },
 
   components: {
-    addressdtails: AddressDetails
+    addressdetails: AddressDetails
   }
 }
 </script>

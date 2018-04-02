@@ -23,5 +23,5 @@ new Vue({
   router,
   VueResource,
   BootstrapVue,
-  render: h => h(App),
+  render: h => h(App)
 })
